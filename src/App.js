@@ -1,5 +1,7 @@
 import "./App.css";
 import { useState } from 'react';
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 var data =[
 
 {
@@ -78,14 +80,12 @@ function Likes(){
   let [dislike,setDislike]=useState(0);
    return(
      <div className="Likes">
-    <button 
-    onClick={()=> { setLikes(likes+1);}} >
-    👍 {likes}
-    </button>
-    <button 
-    onClick={()=> { setDislike(dislike+1); }}>
-    👎 {dislike}
-    </button>
+       <div className="flexThumb">
+     <ThumbUpAltIcon  onClick={()=> { setLikes(likes+1);}} /> {likes}
+     </div>
+     <div className="flexThumb">
+     <ThumbDownIcon onClick={()=> { setDislike(dislike+1); }}/>{dislike}
+     </div>
     </div>
    )
 

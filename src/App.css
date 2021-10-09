@@ -46,3 +46,12 @@ h3{
 .movieButton{
   font-weight: bold;
 }
+.flexThumb{
+  display:flex;
+  flex-direction: row;
+}
+.Likes{
+  display: flex;
+  flex-direction: row;
+  gap:10px;
+}
