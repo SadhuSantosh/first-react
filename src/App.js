@@ -1,6 +1,7 @@
 import "./App.css";
 import { useState } from 'react';
 var data =[
+  
 {
   movieName:"The Shawshank Redemption",
   poster:"https://images-na.ssl-images-amazon.com/images/I/91AlFxiq2cL._RI_.jpg",
