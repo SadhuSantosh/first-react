@@ -49,9 +49,11 @@ h3{
 .flexThumb{
   display:flex;
   flex-direction: row;
+  align-items: center;
+  gap:2px;
 }
 .Likes{
   display: flex;
   flex-direction: row;
-  gap:10px;
+  gap:20px;
 }
