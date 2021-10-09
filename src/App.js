@@ -1,7 +1,7 @@
 import "./App.css";
 import { useState } from 'react';
 var data =[
-  
+
 {
   movieName:"The Shawshank Redemption",
   poster:"https://images-na.ssl-images-amazon.com/images/I/91AlFxiq2cL._RI_.jpg",
@@ -36,28 +36,39 @@ var data =[
 ];
 
 export default function App() {
-  
+  const [movies,setMovies]=useState(data);
+
+
   return (
     <div className="main">
-       <AddMovie/>
+       <AddMovie setMovies={setMovies} />
        <div className="App">
-      {data.map((movie,index) => (
-        <Movie key={index} movie={movie}/>
+      {movies.map((movie,index) => (
+        <Movie key={index} movie={movie} index={index} setMovies={setMovies} movies={movies} />
       ))}
        </div>
     </div>
   );
 }
 
-function Movie({movie}) {
+function Movie({movie,setMovies, movies}) {
+
+  const [flag,setFlag]=useState(false);
   const { movieName, poster, storyline }= movie;
   return (
     <div  className="Movie">
       <img className="poster" src={poster} alt={movieName} />
       <Likes/>
       <h3>{movieName}</h3>
-      <p><strong>Storyline:</strong>{storyline}</p>
-
+      <div>
+      <button onClick={()=>{ setFlag(!flag) }}>show description</button>
+      <button 
+      onClick={()=>{ 
+        setMovies(movies.filter((mov)=> movieName !== mov.movieName )) }}
+        >
+        Delete Movie</button>
+      </div>
+      { flag ? <p >{storyline}</p> : "" }
     </div>
   );
 }
@@ -80,19 +91,37 @@ function Likes(){
 
 }
 
-function AddMovie(){
+function AddMovie({setMovies}){
+   const [movieName,setMovieName]=useState("");
+   const [movieImage,setMovieImage]=useState("");
+   const [movieDescription,setMovieDescription]=useState("");
+   const newData={
+    movieName: movieName,
+    poster: movieImage,
+    storyline: movieDescription,
+   }
+  const addMovie = ()=>{
+      setMovies([...data,newData]);
+  }
+
 
   return(
     <div className="addMovie">
-       <div>
-        <label for="moviename">Movie Name:</label>
-        <input type="text" name="moviename" id="moviename" placeholder="Enter Movie Name"/>
-       </div> 
-        <div>
-            <label for="image">Poster URL:</label>
-            <input type="text" name="image" id="image" placeholder="Poster URL"/>
-        </div>
-        <button class="addMovie" onclick="addMovie()">ADD MOVIE</button>
+        <input 
+        type="text" 
+        name="moviename" 
+        id="moviename" 
+        placeholder="Enter Movie Name"
+        onChange={(event)=>{setMovieName(event.target.value)}}
+        />
+         <input type="text" name="image" id="image" placeholder="Enter movie poster URL" 
+         onChange={(event)=>{setMovieImage(event.target.value)}}
+         />
+         <input type="text" name="description" id="description" placeholder="Enter movie description"
+         onChange={(event)=>{setMovieDescription(event.target.value)}}
+         />
+        
+        <button className="movieButton" onClick={addMovie}>ADD MOVIE</button>
 
     </div>
   )

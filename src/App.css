@@ -9,7 +9,6 @@ body{
   box-shadow: 10px solid black;
 }
 .poster{
-  
   height: 270px;
   width: 200px;
 }
@@ -29,19 +28,15 @@ h3{
 }
 
 .addMovie{
-  width: 350px;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: auto;
-  gap:10px;
-  margin-bottom: 2rem;
-  font-family: 'Urbanist', sans-serif;
-  font-weight: 700;
-}
-button{
-  width:30%;
+  align-items: stretch;
+  width:50%;
   margin: auto;
-  font-family: 'Urbanist', sans-serif;
-  font-weight: 700;
+
+}
+.movieButton{
+  font-weight: bold;
 }
