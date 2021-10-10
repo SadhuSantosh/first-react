@@ -35,9 +35,8 @@ h3{
 .addMovie{
   display: flex;
   flex-direction: column;
-  align-items: center;
   margin: auto;
-  align-items: stretch;
+  align-items: center;
   width:50%;
   margin: auto;
   margin-bottom: 20px;
@@ -56,4 +55,7 @@ h3{
   display: flex;
   flex-direction: row;
   gap:20px;
+}
+input{
+  width:60%;
 }

@@ -2,6 +2,9 @@ import "./App.css";
 import { useState } from 'react';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import Button from '@mui/material/Button';
+import { makeStyles } from '@mui/styles';
+
 var data =[
 
 {
@@ -37,6 +40,17 @@ var data =[
 
 ];
 
+const useStyles = makeStyles((theme) => ({
+    buttonColor:{
+      color: "#f5f5f5",
+      backgroundColor : "#f5f5f5"
+
+
+    }
+
+
+}));
+
 export default function App() {
   const [movies,setMovies]=useState(data);
 
@@ -54,7 +68,7 @@ export default function App() {
 }
 
 function Movie({movie,setMovies, movies}) {
-
+  const classes =useStyles();
   const [flag,setFlag]=useState(false);
   const { movieName, poster, storyline }= movie;
   return (
@@ -63,12 +77,26 @@ function Movie({movie,setMovies, movies}) {
       <Likes/>
       <h3>{movieName}</h3>
       <div>
-      <button onClick={()=>{ setFlag(!flag) }}>show description</button>
-      <button 
+      <Button 
+      style={{
+        color: "#000000",
+        backgroundColor: "#f5f5f5",
+        marginRight: 10,
+        height: 23,
+      }}
+      className={classes.buttonColor} varient="contained" size="small" onClick={()=>{ setFlag(!flag) }}>show description</Button>
+      <Button 
+      style={{
+        color: "#000000",
+        backgroundColor: "#f5f5f5",
+        height: 23, 
+      }}
+      className={classes.buttonColor}
+      varient="contained" size="small"
       onClick={()=>{ 
         setMovies(movies.filter((mov)=> movieName !== mov.movieName )) }}
         >
-        Delete Movie</button>
+        Delete Movie</Button>
       </div>
       { flag ? <p >{storyline}</p> : "" }
     </div>
@@ -92,6 +120,7 @@ function Likes(){
 }
 
 function AddMovie({setMovies}){
+  const classes=useStyles();
    const [movieName,setMovieName]=useState("");
    const [movieImage,setMovieImage]=useState("");
    const [movieDescription,setMovieDescription]=useState("");
@@ -121,9 +150,15 @@ function AddMovie({setMovies}){
          onChange={(event)=>{setMovieDescription(event.target.value)}}
          />
         
-        <button className="movieButton" onClick={addMovie}>ADD MOVIE</button>
-
+        <Button 
+        style={{
+          color: "#000000",
+          backgroundColor: "#f5f5f5",
+          width: "30%", 
+        }}
+        className={ `${classes.buttonColor} movieButton`} varient="contained" onClick={addMovie}>ADD MOVIE</Button>
     </div>
+
   )
 
 }
