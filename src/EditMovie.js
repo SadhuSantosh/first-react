@@ -35,7 +35,7 @@ function EditMovie() {
         useEffect(() => {
          getMovie();
          
-        }, []);
+        }, [getMovie]);
        
   const newData = {
     name: movieName,
