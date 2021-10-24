@@ -21,21 +21,21 @@ function EditMovie() {
     const [movieImage, setMovieImage] = useState("");
     const [movieDescription, setMovieDescription] = useState("");
     const [movieTrailer, setTrailer] = useState("");
-    async function getMovie(){
-       await fetch("https://6120e98a24d11c001762ee33.mockapi.io/movies/"+id)
-        .then(res => res.json())
-        .then(movie => {
-          setName(movie.name);
-          setMovieImage(movie.pic);
-          setMovieDescription(movie.description);
-          setTrailer(movie.trailer);
-        })
-      
-      }
+    
         useEffect(() => {
+            async function getMovie(){
+                await fetch("https://6120e98a24d11c001762ee33.mockapi.io/movies/"+id)
+                 .then(res => res.json())
+                 .then(movie => {
+                   setName(movie.name);
+                   setMovieImage(movie.pic);
+                   setMovieDescription(movie.description);
+                   setTrailer(movie.trailer);
+                 })
+               
+               }
          getMovie();
-         
-        }, [getMovie]);
+        }, []);
        
   const newData = {
     name: movieName,
