@@ -35,7 +35,7 @@ function EditMovie() {
                
                }
          getMovie();
-        }, []);
+        }, [id]);
        
   const newData = {
     name: movieName,
