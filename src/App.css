@@ -1,7 +1,6 @@
 body{
   height:100vh;
-  background-color: black;
-  color: white;
+ 
 }
 .Movie{
   width: 300px;
@@ -12,7 +11,7 @@ body{
   padding: 10px;
   border-radius: 10px;
 }
-.poster{
+.pic{
   height: 270px;
   width: 200px;
 }
@@ -37,13 +36,17 @@ h3{
   flex-direction: column;
   margin: auto;
   align-items: center;
-  width:50%;
   margin: auto;
   margin-bottom: 20px;
 
 }
+.addMovie > div{
+  width: 80%;
+  margin-top: 1rem;
+}
 .movieButton{
   font-weight: bold;
+  
 }
 .flexThumb{
   display:flex;
@@ -52,10 +55,33 @@ h3{
   gap:2px;
 }
 .Likes{
+  margin-top: 10px;
   display: flex;
   flex-direction: row;
-  gap:20px;
+  justify-content: space-evenly;
+  align-items: flex-end;;
+  gap:10px;
 }
-input{
-  width:60%;
+
+.toolbar > a{
+  text-decoration: none;
+  font-weight: bold;
+  margin-right: 15px;
+  
+  color: black;
+}
+.toolbar{
+  background-color: whitesmoke;
+}
+
+.description{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap:10px;
+}
+
+.movieInfo{
+  align-items: center;
+  padding:10px;
 }
