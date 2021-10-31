@@ -6,12 +6,29 @@ import TextField from '@mui/material/TextField';
 import { useHistory } from "react-router-dom";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
   
 
+  const addMovieValidationSchema=yup.object({
+    name: yup
+    .string()
+    .required("Movie name is required !!"),
+    pic: yup
+    .string()
+    .required("Movie poster URL is required"),
+    description: yup
+    .string()
+    .required(" Movie Description is required !!")
+    .min(10,"Description is too short"),
+    trailer: yup
+    .string()
+    .required("Movie trailer URL is required"),
+})
 
 function EditMovie() {
     const [open, setOpen] = React.useState(false);
@@ -21,6 +38,20 @@ function EditMovie() {
     const [movieImage, setMovieImage] = useState("");
     const [movieDescription, setMovieDescription] = useState("");
     const [movieTrailer, setTrailer] = useState("");
+
+    const {handleSubmit, handleBlur, handleChange, values, touched, errors}=useFormik({
+      initialValues:{
+         name:movieName,
+         pic:movieImage ,
+         description: movieDescription,
+        trailer:movieTrailer,
+        },
+       validationSchema: addMovieValidationSchema,
+        onSubmit: (values) => {
+                console.log("sending to server", values);
+                editMovie(values);
+        },
+    });
     
         useEffect(() => {
             async function getMovie(){
@@ -37,19 +68,19 @@ function EditMovie() {
          getMovie();
         }, [id]);
        
-  const newData = {
-    name: movieName,
-    pic: movieImage,
-    description: movieDescription,
-    trailer: movieTrailer,
-  };
+  // const newData = {
+  //   name: movieName,
+  //   pic: movieImage,
+  //   description: movieDescription,
+  //   trailer: movieTrailer,
+  // };
 
  
-  const editMovie = async () => {
+  const editMovie = async (data) => {
     await fetch("https://6120e98a24d11c001762ee33.mockapi.io/movies/"+id,
       {
         method: "PUT",
-        body: JSON.stringify(newData),
+        body: JSON.stringify(data),
         headers: {
           "Content-type": "application/json; charset=UTF-8"
         }
@@ -67,30 +98,54 @@ function EditMovie() {
     setOpen(false);
   };
   return (
-    <div className="addMovie">
+    <form onSubmit={handleSubmit} className="addMovie">
       <TextField
+        id="name"
+        name="name"
         variant="outlined"
         label="Movie Name"
-        value={movieName}
-        onChange={(event) => { setName(event.target.value); }}
+        value={values.name}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        error={errors.name && touched.name}
+        helperText={errors.name && touched.name && errors.name }
+        // onChange={(event) => { setName(event.target.value); }}
       />
       <TextField
+        id="pic"
+        name="pic"
         variant="outlined"
         label="Image URL"
-        value={movieImage}
-        onChange={(event) => { setMovieImage(event.target.value); }}
+        value={values.pic}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        error={errors.pic && touched.pic}
+        helperText={errors.pic && touched.pic && errors.pic }
+        // onChange={(event) => { setMovieImage(event.target.value); }}
       />
       <TextField
-        variant="outlined"
-        label="Storyline"
-        value={movieDescription}
-        onChange={(event) => { setMovieDescription(event.target.value); }}
+       id="description"
+       name="description"
+       variant="outlined"
+       label="Storyline"
+       value={values.description}
+       onChange={handleChange}
+       onBlur={handleBlur}
+       error={errors.description && touched.description}
+       helperText={errors.description && touched.description && errors.description }
+        // onChange={(event) => { setMovieDescription(event.target.value); }}
       />
       <TextField
+        id="trailer"
+        name="trailer"
         variant="outlined"
         label="Trailer URL"
-        value={movieTrailer}
-        onChange={(event) => { setTrailer(event.target.value); }}
+        value={values.trailer}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        error={errors.trailer && touched.trailer}
+        helperText={errors.trailer && touched.trailer && errors.trailer }
+        // onChange={(event) => { setTrailer(event.target.value); }}
       />
       <Button
         style={{
@@ -100,13 +155,13 @@ function EditMovie() {
           marginTop: "10px",
           width: "50%",
         }}
-        varient="contained" onClick={editMovie}>EDIT MOVIE {movieName}</Button>
+        varient="contained"  type="submit">EDIT MOVIE {movieName}</Button>
         <Snackbar open={open} autoHideDuration={3500} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
           {movieName} movie has edited successfully !!
         </Alert>
       </Snackbar>
-    </div>
+      </form>
 
   );
 

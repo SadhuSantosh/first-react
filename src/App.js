@@ -1,5 +1,7 @@
 import "./App.css";
+import React from 'react';
 import { Movie } from "./Movie";
+import { useState, useEffect } from 'react';
 import { AddMovie } from "./AddMovie";
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -11,7 +13,14 @@ import {
 } from "react-router-dom";
 import MovieInfo from "./MovieInfo";
 import EditMovie from "./EditMovie";
-
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import HomeIcon from '@mui/icons-material/Home';
+import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
+import AddIcon from '@mui/icons-material/Add';
 
 // var data =[
 
@@ -60,15 +69,30 @@ import EditMovie from "./EditMovie";
 
 // ];
 
+
 export default function App() {
+  const [darkMode,setDarkMode]=useState(false);
+  const theme = createTheme({
+    palette: {
+      mode: darkMode ? 'dark' : 'light' ,
+    },
+  });
+  
   return (
-    <Router>
+    <ThemeProvider theme={theme}>
+      <Paper style={{ minHeight:"100vh" }}>
+      <Router>
     <div className="main">
       <AppBar position="static" >
         <Toolbar className={`toolbar`} variant="dense" >
-        <Link to="/">Home</Link>            
-        <Link to="/movies">Movies</Link> 
-        <Link to="/addMovie">Add-Movie</Link>
+        <Link to="/"><HomeIcon/> Home</Link>            
+        <Link to="/movies"><LocalMoviesIcon/> Movies</Link> 
+        <Link to="/addMovie"> <AddIcon/>Add-Movie</Link>
+        <Button 
+        startIcon={darkMode ? <Brightness7Icon/> : <Brightness4Icon/> }
+        color="inherit" style={{ marginLeft:"auto" }} onClick={()=>{setDarkMode(!darkMode);}} > 
+        {darkMode ? " LIGHT MODE" : "DARK MODE"}
+        </Button>
         </Toolbar>
       </AppBar>
       <Switch>
@@ -90,6 +114,8 @@ export default function App() {
         </Switch>       
     </div>
     </Router>
+    </Paper>
+    </ThemeProvider>
   );
 }
 
