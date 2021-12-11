@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from "react-router-dom";
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { useHistory } from "react-router-dom";
@@ -10,64 +10,64 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-  });
-  
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
-  const addMovieValidationSchema=yup.object({
-    name: yup
+
+const addMovieValidationSchema = yup.object({
+  name: yup
     .string()
     .required("Movie name is required !!"),
-    pic: yup
+  pic: yup
     .string()
     .required("Movie poster URL is required"),
-    description: yup
+  description: yup
     .string()
     .required(" Movie Description is required !!")
-    .min(10,"Description is too short"),
-    trailer: yup
+    .min(10, "Description is too short"),
+  trailer: yup
     .string()
     .required("Movie trailer URL is required"),
 })
 
 function EditMovie() {
-    const [open, setOpen] = React.useState(false);
-    const {id} = useParams();
-    const history=useHistory();
-    const [movieName, setName] = useState("");
-    const [movieImage, setMovieImage] = useState("");
-    const [movieDescription, setMovieDescription] = useState("");
-    const [movieTrailer, setTrailer] = useState("");
+  const [open, setOpen] = React.useState(false);
+  const { id } = useParams();
+  const history = useHistory();
+  let [movies,setMovies]=useState("");
+  // const [movieName, setName] = useState("");
+  // const [movieImage, setMovieImage] = useState("");
+  // const [movieDescription, setMovieDescription] = useState("");
+  // const [movieTrailer, setTrailer] = useState("");
 
-    const {handleSubmit, handleBlur, handleChange, values, touched, errors}=useFormik({
-      initialValues:{
-         name:movieName,
-         pic:movieImage ,
-         description: movieDescription,
-        trailer:movieTrailer,
-        },
-       validationSchema: addMovieValidationSchema,
-        onSubmit: (values) => {
-                console.log("sending to server", values);
-                editMovie(values);
-        },
-    });
-    
-        useEffect(() => {
-            async function getMovie(){
-                await fetch("https://6120e98a24d11c001762ee33.mockapi.io/movies/"+id)
-                 .then(res => res.json())
-                 .then(movie => {
-                   setName(movie.name);
-                   setMovieImage(movie.pic);
-                   setMovieDescription(movie.description);
-                   setTrailer(movie.trailer);
-                 })
-               
-               }
-         getMovie();
-        }, [id]);
-       
+  const { handleSubmit, handleBlur, handleChange, values, touched, errors } = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      name: movies.name,
+      pic: movies.pic,
+      description: movies.description,
+      trailer: movies.trailer,
+    },
+    validationSchema: addMovieValidationSchema,
+    onSubmit: (values) => {
+      console.log("sending to server", values);
+      editMovie(values);
+    },
+  });
+
+  useEffect(() => {
+    async function getMovie() {
+      await fetch("https://6120e98a24d11c001762ee33.mockapi.io/movies/" + id)
+        .then(res => res.json())
+        .then(movie => {
+          setMovies(movie);
+          
+        })
+
+    }
+    getMovie();
+  }, [id]);
+  console.log(movies);
   // const newData = {
   //   name: movieName,
   //   pic: movieImage,
@@ -75,9 +75,9 @@ function EditMovie() {
   //   trailer: movieTrailer,
   // };
 
- 
+
   const editMovie = async (data) => {
-    await fetch("https://6120e98a24d11c001762ee33.mockapi.io/movies/"+id,
+    await fetch("https://6120e98a24d11c001762ee33.mockapi.io/movies/" + id,
       {
         method: "PUT",
         body: JSON.stringify(data),
@@ -85,10 +85,10 @@ function EditMovie() {
           "Content-type": "application/json; charset=UTF-8"
         }
       })
-      .then(res=> {
-          setOpen(true);
-          setTimeout(()=> history.push("/movies"),3000);
-        });
+      .then(res => {
+        setOpen(true);
+        setTimeout(() => history.push("/movies"), 3000);
+      });
   };
 
   const handleClose = (event, reason) => {
@@ -108,8 +108,8 @@ function EditMovie() {
         onChange={handleChange}
         onBlur={handleBlur}
         error={errors.name && touched.name}
-        helperText={errors.name && touched.name && errors.name }
-        // onChange={(event) => { setName(event.target.value); }}
+        helperText={errors.name && touched.name && errors.name}
+      // onChange={(event) => { setName(event.target.value); }}
       />
       <TextField
         id="pic"
@@ -120,20 +120,20 @@ function EditMovie() {
         onChange={handleChange}
         onBlur={handleBlur}
         error={errors.pic && touched.pic}
-        helperText={errors.pic && touched.pic && errors.pic }
-        // onChange={(event) => { setMovieImage(event.target.value); }}
+        helperText={errors.pic && touched.pic && errors.pic}
+      // onChange={(event) => { setMovieImage(event.target.value); }}
       />
       <TextField
-       id="description"
-       name="description"
-       variant="outlined"
-       label="Storyline"
-       value={values.description}
-       onChange={handleChange}
-       onBlur={handleBlur}
-       error={errors.description && touched.description}
-       helperText={errors.description && touched.description && errors.description }
-        // onChange={(event) => { setMovieDescription(event.target.value); }}
+        id="description"
+        name="description"
+        variant="outlined"
+        label="Storyline"
+        value={values.description}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        error={errors.description && touched.description}
+        helperText={errors.description && touched.description && errors.description}
+      // onChange={(event) => { setMovieDescription(event.target.value); }}
       />
       <TextField
         id="trailer"
@@ -144,8 +144,8 @@ function EditMovie() {
         onChange={handleChange}
         onBlur={handleBlur}
         error={errors.trailer && touched.trailer}
-        helperText={errors.trailer && touched.trailer && errors.trailer }
-        // onChange={(event) => { setTrailer(event.target.value); }}
+        helperText={errors.trailer && touched.trailer && errors.trailer}
+      // onChange={(event) => { setTrailer(event.target.value); }}
       />
       <Button
         style={{
@@ -155,13 +155,13 @@ function EditMovie() {
           marginTop: "10px",
           width: "50%",
         }}
-        varient="contained"  type="submit">EDIT MOVIE {movieName}</Button>
-        <Snackbar open={open} autoHideDuration={3500} onClose={handleClose}>
+        varient="contained" type="submit">EDIT MOVIE {movies.name}</Button>
+      <Snackbar open={open} autoHideDuration={3500} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-          {movieName} movie has edited successfully !!
+          {movies.name} movie has edited successfully !!
         </Alert>
       </Snackbar>
-      </form>
+    </form>
 
   );
 
