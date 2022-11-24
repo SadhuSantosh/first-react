@@ -8,8 +8,8 @@ import Recipe from './recipe/recipe';
 
 ReactDOM.render(
   <React.StrictMode>
-    {/* <App /> */}
-    <Recipe />
+        <App /> 
+//     <Recipe />
   </React.StrictMode>,
   document.getElementById('root')
 );
